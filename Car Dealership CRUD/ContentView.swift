@@ -12,18 +12,17 @@ struct Car: Identifiable {
     var manufacturer: String
     var model: String
     var variant: String
-    var generation: String
     var year: Int
     var fuelType: String
     var engineSize: Double
     var color: String
     var horsepower: Int
-    var price: Double
+    var price: Int
 }
 
 struct ContentView: View {
     @State private var cars: [Car] = [
-        Car(manufacturer: "BMW", model: "3 Series", variant: "340d", generation: "G20", year: 2021, fuelType: "Diesel", engineSize: 3.0, color: "Gray", horsepower: 340, price: 75000)
+        Car(manufacturer: "BMW", model: "3 Series", variant: "340d", year: 2021, fuelType: "Diesel", engineSize: 3.0, color: "Gray", horsepower: 340, price: 75000)
         ]
     
     @State private var isPresentingAddCarView = false
@@ -39,7 +38,7 @@ struct ContentView: View {
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
-                        Text("$\(car.price, specifier: "%.2f")")
+                        Text("€\(car.price)")
                             .font(.callout)
                             .fontWeight(.semibold)
                             .padding(.top, 4)
@@ -55,7 +54,9 @@ struct ContentView: View {
                     }
                 }
                 .sheet(isPresented: $isPresentingAddCarView) {
-                    Text("This is where we will add a new car.")
+                    AddCarView { newCar in
+                        cars.append(newCar)
+                    }
                 }
             }
         }
